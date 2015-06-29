@@ -123,7 +123,11 @@ padding:2.5%;
 	background-color: #eee;
 	padding: 10px;
 	border-radius: 10px;
+<<<<<<< HEAD
 	tex
+=======
+	word-wrap: break-word;
+>>>>>>> Ian
 
 }
 
@@ -220,3 +224,7 @@ padding-top:5px;
 	height:50px;
 	}	
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
