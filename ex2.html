@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<title>Web Trends Assignment 3 - Get Top Places</title>
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="css/jquery-ui.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+</head>
+<body>
+  <div id="container" class="wrap" class="clearfix"> 
+  	<header id="title">
+      <nav>
+      <ul id="mainnav">
+        <li><a href="index.html">Setup</a></li>
+        <li><a href="ex1.html">Example 1</a></li>
+        <li><a href="ex2.html">Get Top Places</a></li>
+        <li><a href="ex3.html">Example 3</a></li>
+        <li><a href="ex4.html"></a></li>
+      </ul>     
+    </nav>
+      <div id="logosection" class="clearfix">
+        <div id="logo">Flickr API</div>
+        <div id="tagline">Example 4 - Get the Most Popular Places</div>
+      </div>
+    </header>
+    <div id="content"> 
+       <p style="font-weight:bold">Pre requirements</p>
+       <p>Have your App registered in "Flickr APP Garden" and Have API key ready.</p>
+       <p>Method: <code> flickr.places.getTopPlacesList </code></p>
+       
+       <h2>Tutorial</h2>
+       <p class="codeFormat">This tutorial will help  you use JS and JQuery to return the top 100 most geotagged places for a day. </p>
+       <div id="explanation_content">
+        <h2>Arguments Needed</h2>
+        <h3>API Key (Required)</h3> 
+        <p>your API Application Key</p>
+        <h3>place_type_id (Required)</h3> 
+        <p>The numeric ID for a specific place type to cluster photos by.</p>
+        <h3>date (Optional)</h3> 
+        <p>A valid date in YYYY-MM-DD format. <i>The default is yesterday.</i></p>
+        <h3>woe_id (Optional)</h3> 
+        <p>Limit your query to only those top places belonging to a specific Where on Earth (WOE) identifier.</p>
+        <h3>place_id (Optional)</h3> 
+        <p>Limit your query to only those top places belonging to a specific Flickr Places identifier.</p>
+        <h3>Example URL request format</h3>
+        <p class="codeFormat">
+           URL = "https://api.flickr.com/services/rest/?method=flickr.places.getTopPlacesList&api_key=8ded6105414fa8668c5941c5018ef821&format=json&nojsoncallback=1&place_type_id=22&date=2015-06-26&place_id=6SULVp5VU7vq";
+        </p>
+        <h3>Complete Sample Code</h3>
+        <xmp>
+            /*
+             * API Call Request URL
+             */
+
+             var mainURL = 'https://api.flickr.com/services/rest/?';
+
+             /* 
+              * Method We are using for this tutorial  flickr.places.getTopPlacesList
+              */
+
+             var methodURL = 'method=flickr.places.getTopPlacesList';
+
+             /*
+              * Put Your API Key Here
+              */
+
+             var apiKey = '&api_key=8ded6105414fa8668c5941c5018ef821';
+            
+             /*
+              * Following two makes sure response is in JSON format
+              */
+             
+             var apiFormat = '&format=json&nojsoncallback=1';
+
+             /*
+              *  The api call require only one parameter to function,
+              *  the place_type_id
+              */
+              
+             var placeTypeID = '&place_type_id=8';
+
+             /*
+              *  Once all the variables are in order, complete
+              *  the URL string and enter the call through a JQuery 
+              *  JSON Request Object
+              */ 
+              
+              var url = mainURL + methodURL + apiKey + apiFormat + placeTypeID;
+              
+
+             /*
+              *  Ensure that you run through the results through an foreach loop
+              *  and append them to an element in the HTML code
+              */
+            
+            $.getJSON( url, function(data){
+                
+                $.each(data.places.place, function(index, element) {
+                    $('#results_feedback').append((index + 1) + ': ' + element._content + '<br>');
+                });    
+                                              
+            });
+           
+</xmp>
+            
+            
+        <h2>Please use the provided inputs to construct the API call below</h2>  
+                
+        <ol>
+             <li>
+                 <h3>place_type_id (Required)</h3>
+             </li>
+             <p>The numeric ID for a specific place type to cluster photos by. <br> Valid place type IDs are :</p> 
+             <div id="place_options">
+                <input type="radio" value="&place_type_id=22" name="place_type_id">&nbsp;22: neighbourhood<br>
+                <input type="radio" value="&place_type_id=7" name="place_type_id">&nbsp;7: locality<br>
+                <input type="radio" value="&place_type_id=8" name="place_type_id" checked="checked">&nbsp;8: region<br>
+                <input type="radio" value="&place_type_id=12" name="place_type_id">&nbsp;12: country<br>
+                <input type="radio" value="&place_type_id=29" name="place_type_id">&nbsp;29: continent
+             </div>
+             <br>
+             <li><h3>date (Optional) </h3></li>
+             <p>A valid date in YYYY-MM-DD format. The default is yesterday.</p>
+             <p>Date: <input type="text" id="datepicker" size="30">
+             <button onclick="clearDate()">Clear</button>
+             </p>
+            <br>
+            <li><h3>woe_id (Optional)</h3></li>
+            <p>Limit your query to only those top places belonging to a specific Where on Earth (WOE) identifier.</p>
+            <div id="place_options">
+                <input type="radio" value="&woe_id=24865675" name="woe_id">&nbsp;24865675 - Europe<br>
+                <input type="radio" value="&woe_id=24865672" name="woe_id">&nbsp;24865672 - North America<br>
+                <input type="radio" value="&woe_id=24865671" name="woe_id">&nbsp;24865671 - Asia<br>
+                <input type="radio" value="&woe_id=24865673" name="woe_id">&nbsp;24865673 - South America<br>
+                <input type="radio" value="&woe_id=55949070" name="woe_id">&nbsp;55949070 - Australia<br>
+                <input type="radio" value="&woe_id=24865670" name="woe_id">&nbsp;24865670 - Africa<br>
+                <input type="radio" value="&woe_id=23424977" name="woe_id">&nbsp;23424977 - Unites States<br>
+                <input type="radio" value="&woe_id=23424775" name="woe_id">&nbsp;23424775 - Canada<br>
+                <input type="radio" value="&woe_id=23424950" name="woe_id">&nbsp;23424950 - Spain<br>
+                <input type="radio" value="&woe_id=23424768" name="woe_id">&nbsp;23424768 - Brazil<br>
+                <input type="radio" value="&woe_id=23424916" name="woe_id">&nbsp;23424916 - New Zealand<br>
+                <input type="radio" value="" name="woe_id" checked="checked">&nbsp;No WOE ID
+            </div>
+            <br>
+            <li><h3>place_id (Optional) </h3></li>
+            <p>Limit your query to only those top places belonging to a specific Flickr Places identifier.</p>
+            <div id="place_options">
+                <input type="radio" value="&place_id=6SULVp5VU7vq" name="place_id">&nbsp;6SULVp5VU7vq - Toronto<br>
+                <input type="radio" value="&place_id=nY7EoSRSV7kW" name="place_id">&nbsp;nY7EoSRSV7kW - Montreal<br>
+                <input type="radio" value="&place_id=lOfvpopYWrrC" name="place_id">&nbsp;lOfvpopYWrrC - Vancouver<br>
+                <input type="radio" value="&place_id=bhjvQSFVUr6l" name="place_id">&nbsp;bhjvQSFVUr6l - Guelph<br>
+                <input type="radio" value="&place_id=qaSDTB1YU7P1GQ_x6g" name="place_id">&nbsp;qaSDTB1YU7P1GQ_x6g - Ottawa<br>
+                <input type="radio" value="&place_id=4H8RMxVU7gJ" name="place_id">&nbsp;V4H8RMxVU7gJ - Oakville<br>
+                <input type="radio" value="&place_id=bOG7yvNVU7gH" name="place_id">&nbsp;bOG7yvNVU7gH - Hamilton<br>
+                <input type="radio" value="&place_id=kUzqwRpVU76B" name="place_id">&nbsp;kUzqwRpVU76B - Kingston<br>
+                <input type="radio" value="" name="place_id" checked="checked">&nbsp;No Place ID
+            </div>
+            </ol>
+         </div>
+         <div id="result_section">
+             <p>Results Paramenter: <span id="result_params"></span></p>
+             <p>Results URL: <span style="font-size:.75em;" id="results_url"></span></p>
+             <h3 class="results_heading">Results:</h3><br>
+             <p id="results_feedback"></p>
+         </div>
+         <!-- API Key -> 6dbf0e095ffbca3b14d2592 -->
+         <!-- API SECRET -> a4e1d351342  -->
+    <script type="text/javascript">
+
+            var mainURL = 'https://api.flickr.com/services/rest/?'
+            var methodURL = 'method=flickr.places.getTopPlacesList';
+            var apiKey = '&api_key=8ded6105414fa8668c5941c5018ef821';
+            var apiFormat = '&format=json&nojsoncallback=1';
+        
+        
+        
+            var placeTypeID = '&place_type_id=8';
+            var dateID = '';   
+            var woeID = '';
+            var placeID = ''; 
+        
+            var url = mainURL + methodURL + apiKey + apiFormat + placeTypeID + dateID + woeID + placeID;
+        
+            var params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+        
+        $(document).ready(function(){	   
+            
+            $( "#datepicker" ).datepicker({
+              onSelect: function() {
+                console.log($(this).val());
+                dateID = '&date=' + $(this).val();
+                url = mainURL + methodURL + placeTypeID + dateID + woeID + placeID;
+                params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+                newUrl(url, params);
+                  
+              }
+            });
+            $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+            
+            $("input:radio[name=place_type_id]").click(function() {
+                
+                placeTypeID = $(this).val();
+                url = mainURL + methodURL + placeTypeID + dateID + woeID + placeID;
+                params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+                newUrl(url, params);
+            });
+            
+             $("input:radio[name=woe_id]").click(function() {
+                
+                woeID = $(this).val();
+                url = mainURL + methodURL + placeTypeID + dateID + woeID + placeID;
+                params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+                newUrl(url, params);
+            });
+            
+            $("input:radio[name=place_id]").click(function() {
+                
+                placeID = $(this).val();
+                url = mainURL + methodURL + placeTypeID + dateID + woeID + placeID;
+                params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+                newUrl(url, params);
+            });
+            
+            newUrl(url, params);
+            
+        });
+    
+        function newUrl (url, params) {
+            
+            $('#result_params').html(params);
+            $('#results_url').html(url);
+            $('#results_feedback').empty();
+            
+            
+            $.getJSON( url, function(data){
+                
+                $.each(data.places.place, function(index, element) {
+                    $('#results_feedback').append((index + 1) + ': ' + element._content + '<br>');
+                });    
+                                              
+            });
+
+        }
+        
+        function clearDate () {
+            $( "#datepicker" ).val('');
+            dateID = '';
+            params = placeTypeID + ' ' + dateID + '' + woeID + '' + placeID;
+            newUrl(url, params);
+            
+        }
+        
+    </script>
+                        
+                                                                
+    </div>      
+      
+            
+  <footer class="site-footer">
+    <div>Group: Ian Gauthier, Alagappan Palaniappan, Veronika Orlova, Bhawan Singh, Boris Xiao</div>        
+  </footer> 
+</body>
+</html>
