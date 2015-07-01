@@ -10,7 +10,7 @@
 </head>
 <body>
   <div id="container" class="wrap" class="clearfix"> 
-  	<header id="title">
+   <header id="title">
       <nav>
       <ul id="mainnav">
         <li><a href="index.html">Setup</a></li>
@@ -22,11 +22,65 @@
     </nav>
       <div id="logosection" class="clearfix">
         <div id="logo">Flickr API</div>
-        <div id="tagline">Example 3 - ASHWIN</div>
+        <div id="tagline">Example 3 - Find people by Email-ID</div>
       </div>
     </header>
     <div id="content"> 
-          <p>Wafer tiramisu soufflé tart lemon drops. Topping jelly-o sesame snaps. Wafer tootsie roll cookie cupcake lemon drops caramels. Wafer candy canes jelly beans tootsie roll jujubes pie topping. Lemon drops oat cake gingerbread dessert toffee gummi bears. Cake wafer muffin lollipop sweet roll fruitcake donut lollipop. Pastry halvah apple pie chocolate cake tart gummies. Tootsie roll cheesecake halvah pie sesame snaps dragée cotton candy gummi bears. Sweet carrot cake donut tootsie roll icing ice cream oat cake bear claw chocolate bar. Macaroon caramels cake gingerbread soufflé chocolate bar cake. Pudding candy gummi bears fruitcake marzipan. Cheesecake sweet chocolate cake jelly candy pie carrot cake croissant sweet.</p>               
+      <p style="font-weight:bold">Pre requirements</p>
+      <p>Have your App registered in "Flickr APP Garden" and Have API key ready.</p>
+      <p>Method: <code> flickr.people.findByEmail </code></p>
+     <h2>Tutorial</h2>
+     <p class="codeFormat">
+      This tutorial will help  you make cURL request to using flickr API to get Hot Tags
+     </p>
+
+     <h2>Arguments</h2>
+    
+      <h3>api_key (Required)</h3>
+      <p>Your API application key.</p>
+      <h3> find_email (Required)<h3>
+      <p>The email address of the user to find (may be primary or secondary).</p>
+      
+      <h3>Example URL request format</h3>
+       <p class="codeFormat">
+       URL = "https://api.flickr.com/services/rest/?&method=flickr.people.findByEmail&api_key=[Your API Key Here]&find_email=[email id of the user to find]";
+        </p>
+
+      <h2>Complete Sample Code</h2>
+          <p class="codeFormat">
+        <xmp>
+            /*<br>
+             * API Call Request URL
+             */<br>
+
+             $url =  "https://api.flickr.com/services/rest/?";<br>
+
+             /*<br>
+              * Method We are using for this tutorial  flickr.people.findByEmail<br>
+              */<br>
+
+             $url.= "&method=flickr.people.findByEmail";<br>
+
+             /*<br>
+              * Put Your API Key Here<br>
+              */<br>
+
+             $url.= "&api_key=[Your API Key Here]";
+
+             /*<br>
+              * Argument find_email accepts a valid email address<br>
+              */<br>
+             $url.= "&find_email=[email id of the user to find]";<br>
+
+
+            $response = file_get_contents($url);<br>
+
+            echo $response;<br>
+            
+            
+
+</xmp>
+          </p>               
     </div>      
       
             
