@@ -10,6 +10,4 @@
    var_dump($output);
    curl_close($ch);
 
-
-
 ?>
