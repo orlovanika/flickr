@@ -48,53 +48,66 @@
         </p>
 
       <h2>Complete Sample Code</h2>
-              <a href="sample.zip">Download the zip file</a>
-
-          <p class="codeFormat">
-        <xmp>
-            /*<br>
+         
+<xmp>
+            /*
              * API Call Request URL
-             */<br>
+             */
 
-             $url =  "https://api.flickr.com/services/rest/?";<br>
+             $url =  "https://api.flickr.com/services/rest/?";
 
-             /*<br>
-              * Method We are using for this tutorial  flickr.tags.getHotList<br>
-              */<br>
+             /* 
+              * Method We are using for this tutorial  flickr.tags.getHotList
+              */
 
-             $url.= "&method=flickr.tags.getHotList";<br>
+             $url.= "&method=flickr.tags.getHotList";
 
-             /*<br>
-              * Put Your API Key Here<br>
-              */<br>
+             /*
+              * Put Your API Key Here
+              */
 
-             $url.= "&api_key=[Your API Key Here]";
+             $url.= "&api_key=[Your API Key Here]";b
 
-             /*<br>
-              * Argument Period accepts two values [Day,Week] by default it is day<br>
-              */<br>
-             $url.= "&period=week";<br>
+             /*
+              * Argument Period accepts two values [Day,Week]
+              * by default it is day
+              */
+             $url.= "&period=week";
 
-             /*<br>
-              * Following two makes sure response is in JSON format<br>
-              */<br>
-             $url.= "&format=json";<br>
-             $url.= "&nojsoncallback=1";<br>
+             /*
+              * Following two makes sure response is in JSON format
+              */
 
-            $response = json_decode(file_get_contents($url));<br>
-            $photo_array = $response->photos->photo;<br>
+             $url.= "&format=json";
+             $url.= "&nojsoncallback=1";
+
+            $response = json_decode(file_get_contents($url));
+            $photo_array = $response->photos->photo;
             
-            echo "<ul>";<br>
+            echo '<ul>';
 
-            foreach ($response->hottags->tag as  $value) {<br>
+            foreach ($response->hottags->tag as  $value) {
               
-              echo "<li><a target='_blank' href='https://www.flickr.com/search/?q=$value->_content'>".$value->_content."</a></li>"; <br>
+              /*
+              * Popular Tags are have been hyper linked
+              * to Flickr Search query page
+              */
 
-            }<br>
-            echo "</ul>";<br>
+              echo "<li><a target='_blank' 
+                      href='https://www.flickr.com/search/?
+                      q=$value->_content'>".$value->_content."</a></li>"; 
+
+            }
+
+            echo "</ul>";
 
 </xmp>
-          </p>               
+
+ <h2>Screenshot</h2>
+ <img src="img/example5.png" alt="Example 5" />
+ <h2>Download the source code</h2>
+        <a href="zipped_files/Flickr-GetPopularTags.zip" download="Flickr-GetPopularTags.zip">Flickr - Get Popular Tags</a> 
+            
     </div>      
       
             
