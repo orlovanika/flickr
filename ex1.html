@@ -1,39 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<title>Web trends assignment 3</title>
-<link rel="stylesheet" href="reset.css">
-<link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Web trends assignment 3</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css"/>
 
 </head>
 <body>
-  <div id="container" class="wrap" class="clearfix"> 
-  	<header id="title">
-      <nav>
-      <ul id="mainnav">
-        <li><a href="index.html">Setup</a></li>
-        <li><a href="ex1.html">Example 1</a></li>
-        <li><a href="ex2.html">Example 2</a></li>
-        <li><a href="ex3.html">Example 3</a></li>
-        <li><a href="ex4.html">Example 4</a></li>
-      </ul>     
-    </nav>
-      <div id="logosection" class="clearfix">
-        <div id="logo">Flickr API</div>
-        <div id="tagline">Example 1 - BORIS</div>
-      </div>
+<div id="container" class="wrap" class="clearfix">
+    <header id="title">
+        <nav>
+            <ul id="mainnav">
+                <li><a href="index.html">Setup</a></li>
+                <li><a href="ex1.html">Example 1</a></li>
+                <li><a href="ex2.html">Example 2</a></li>
+                <li><a href="ex3.html">Example 3</a></li>
+                <li><a href="ex4.html">Example 4</a></li>
+            </ul>
+        </nav>
+        <div id="logosection" class="clearfix">
+            <div id="logo">Flickr API</div>
+            <div id="tagline">Example 1 - Search Photos by Tags</div>
+        </div>
     </header>
-    <div id="content"> 
-          <p>Wafer tiramisu soufflé tart lemon drops. Topping jelly-o sesame snaps. Wafer tootsie roll cookie cupcake lemon drops caramels. Wafer candy canes jelly beans tootsie roll jujubes pie topping. Lemon drops oat cake gingerbread dessert toffee gummi bears. Cake wafer muffin lollipop sweet roll fruitcake donut lollipop. Pastry halvah apple pie chocolate cake tart gummies. Tootsie roll cheesecake halvah pie sesame snaps dragée cotton candy gummi bears. Sweet carrot cake donut tootsie roll icing ice cream oat cake bear claw chocolate bar. Macaroon caramels cake gingerbread soufflé chocolate bar cake. Pudding candy gummi bears fruitcake marzipan. Cheesecake sweet chocolate cake jelly candy pie carrot cake croissant sweet.</p>               
-          <h2>Download the source code</h2>
-          <a href="zipped_files/Flickr-getsomething.zip" download="last.zip">Flickr - last example</a>  
-    </div>      
-    
-            
-  <footer class="site-footer">
-    <div>Group: Ian Gauthier, Alagappan Palaniappan, Veronika Orlova, Bhawan Singh, Boris Xiao</div>        
-  </footer> 
+    <div id="content">
+        <p style="font-weight:bold">Pre requirements</p>
+
+        <p>Have your App registered in "Flickr APP Garden" and Have API key ready.</p>
+
+        <p>Method: <code>flickr.photos.search</code></p>
+
+        <h2>Tutorial</h2>
+
+        <p class="codeFormat">This tutorial will show you how to search a tag and display the images from the search
+            result.</p>
+
+        <div id="explanation_content">
+            <h2>Arguments Needed</h2>
+
+            <h3>API Key (Required)</h3>
+
+            <p>Your API Application Key</p>
+
+            <h3>tags (Optional)</h3>
+
+            <p>The names of tag you want to search</p>
+
+            <h3>page (Optional, default value 1)</h3>
+
+            <p>It specifies the number of page of the returned search result.</p>
+
+            <h3>per_page (Optional)</h3>
+
+            <p>It specifies the number of photos per page.</p>
+
+            <p class="codeFormat">
+                https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ebc8bbfa965360cc390bbd358f672b5f&tags=cute&format=json&nojsoncallback=1&per_page=5"</p>
+
+            <h3>Complete Sample Code</h3>
+            <xmp>
+                <?php
+
+/*
+* API Call Request URL
+*/
+
+$url = "https://api.flickr.com/services/rest/?";
+
+/*
+ * Method We are using for this tutorial  flickr.tags.getHotList
+ */
+
+$url .= "method=flickr.photos.search";
+
+/*
+ * Put Your API Key Here
+ */
+
+$url .= "&api_key=ebc8bbfa965360cc390bbd358f672b5f";
+
+/*
+ * Put name of the tag you want to search here, we use "cute" as an example here
+ */
+
+$url .= "&tags=cute";
+
+
+/*
+ * You can limit the number of search result with per_page
+ */
+
+$url .= "&per_page=5";
+
+
+/*
+ * Following two makes sure response is in JSON format
+ */
+$url .= "&format=json";
+$url .= "&nojsoncallback=1";
+
+/*
+ * The returned result is an JSON object, which contains information to get the url of the images.
+ */
+$photos = json_decode(file_get_contents($url))->photos->photo;
+
+                ?>
+
+                <!doctype html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Flickr Photo Search - Tag: Cute</title>
+                </head>
+                <body>
+                <h1>Flickr Photo Search - Tag: Cute</h1>
+
+                <?php
+/*
+ * The format of an url: https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+ * Substitute the argument in { } with the corresponding data from the search result, do not include { }
+ */
+?>
+
+                <?php foreach ($photos as $photo): ?>
+                <h3><?php echo $photo->title ?></h3>
+                <img
+                        src="https://farm<?php echo $photo->farm ?>.staticflickr.com/<?php echo $photo->server ?>/<?php echo $photo->id ?>_<?php echo $photo->secret ?>.jpg"
+                        alt="<?php echo $photo->title ?>"/>
+                <br/>
+                <hr/>
+                <?php endforeach ?>
+
+
+                </body>
+                </html>
+
+            </xmp>
+        </div>
+        <h2>Download the source code</h2>
+        <a href="zipped_files/Flickr-getsomething.zip" download="last.zip">Flickr - last example</a>
+    </div>
+
+
+    <footer class="site-footer">
+        <div>Group: Ian Gauthier, Alagappan Palaniappan, Veronika Orlova, Bhawan Singh, Boris Xiao</div>
+    </footer>
 </body>
 </html>
